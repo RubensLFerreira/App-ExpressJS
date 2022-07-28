@@ -1,6 +1,8 @@
 const btn = document.querySelector("#editar");
 
-btn.addEventListener("click", () => {
+btn.addEventListener("click", function(e) {
+  e.preventDefault(); 
+
   const curso = getDadosForm();
   putDadosForm(curso);
 });
@@ -17,11 +19,11 @@ function getDadosForm() {
     cargaHoraria: inputcargaHoraria.value,
     turno: inputTurno.value,
   };
-  console.log(curso);
+  return curso;
 }
 
 async function putDadosForm(curso) {
-  const url = "http://localhost:8080/cursos";
+  const url = "http://localhost:8080/cursos/";
   const config = {
     method: "PUT",
     headers: {
@@ -32,7 +34,7 @@ async function putDadosForm(curso) {
   };
 
   // const resposta = await
-  fetch(url, config)
+  await fetch(url + curso.id, config)
   .then(response => console.log(response.status))
   .then(data => console.log(data))
   .catch(err => console.log(err))
